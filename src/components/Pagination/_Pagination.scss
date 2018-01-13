@@ -1,0 +1,31 @@
+.codeflow-pagination {
+
+    flex: 1;
+    justify-content: flex-end;
+    display: flex;
+
+    &__paginator li {
+        border: none;
+    }
+    
+    &__paginator {
+
+        .rc-pagination-item {
+            border-radius: 50%;       
+            
+            &-active {
+                background-color: $color-primary !important;
+            }
+
+            &:hover {
+                background-color: $color-hover;
+
+                a {
+                    color: $color-text-default;
+                }
+            }
+        }
+
+    }
+
+}

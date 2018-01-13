@@ -1,0 +1,40 @@
+$color-primary: #2a9699;
+$color-secondary: #868e96;
+$color-danger: #dc3545;
+
+$color-primary-light: lighten($color-primary, 50%);
+$color-primary-medium: lighten($color-primary, 10%);
+$color-secondary-light: lighten($color-secondary, 40%);
+$color-danger-light: lighten($color-danger, 40%);
+
+$color-border-black: #000;
+$color-white: #fff;
+
+$color-hover: rgba(0,0,0,0.08);
+
+$color-background-primary: #fff; 
+
+$size-title-font: 2.2rem;
+
+$color-text-title: rgba(0,0,0,0.87);
+$color-text-default: #000;
+$color-text-primary: rgba(0,0,0,0.87);
+$color-text-secondary: rgba(0,0,0,0.54);
+
+$padding-xs: 0.5rem;
+$padding-sm: 0.8rem;
+$padding-md: 1.5rem;
+$padding-lg: 3rem;
+$padding-xl: 5rem;
+
+$margin-xs: 0.5rem;
+$margin-sm: 0.8rem;
+$margin-md: 1.5rem;
+$margin-lg: 3rem;
+$margin-xl: 5rem;
+
+$breakpoints: (
+  'medium': (min-width: 800px),
+  'large': (min-width: 1000px),
+  'huge': (min-width: 1200px),
+);

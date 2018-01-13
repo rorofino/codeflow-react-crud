@@ -1,0 +1,294 @@
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+.vc {
+  display: flex;
+  align-items: center; }
+
+.hc {
+  display: flex;
+  justify-content: center; }
+
+.padding-xs {
+  padding: 0.5rem; }
+
+.padding-top-xs {
+  padding-top: 0.5rem; }
+
+.padding-right-xs {
+  padding-right: 0.5rem; }
+
+.padding-left-xs {
+  padding-left: 0.5rem; }
+
+.padding-bottom-xs {
+  padding-bottom: 0.5rem; }
+
+.margin-xs {
+  margin: 0.5rem; }
+
+.margin-top-xs {
+  margin-top: 0.5rem; }
+
+.margin-right-xs {
+  margin-right: 0.5rem; }
+
+.margin-left-xs {
+  margin-left: 0.5rem; }
+
+.margin-bottom-xs {
+  margin-bottom: 0.5rem; }
+
+.padding-sm {
+  padding: 0.8rem; }
+
+.padding-top-sm {
+  padding-top: 0.8rem; }
+
+.padding-right-sm {
+  padding-right: 0.8rem; }
+
+.padding-left-sm {
+  padding-left: 0.8rem; }
+
+.padding-bottom-sm {
+  padding-bottom: 0.8rem; }
+
+.margin-sm {
+  margin: 0.8rem; }
+
+.margin-top-sm {
+  margin-top: 0.8rem; }
+
+.margin-right-sm {
+  margin-right: 0.8rem; }
+
+.margin-left-sm {
+  margin-left: 0.8rem; }
+
+.margin-bottom-sm {
+  margin-bottom: 0.8rem; }
+
+.padding-md {
+  padding: 1.5rem; }
+
+.padding-top-md {
+  padding-top: 1.5rem; }
+
+.padding-right-md {
+  padding-right: 1.5rem; }
+
+.padding-left-md {
+  padding-left: 1.5rem; }
+
+.padding-bottom-md {
+  padding-bottom: 1.5rem; }
+
+.margin-md {
+  margin: 1.5rem; }
+
+.margin-top-md {
+  margin-top: 1.5rem; }
+
+.margin-right-md {
+  margin-right: 1.5rem; }
+
+.margin-left-md {
+  margin-left: 1.5rem; }
+
+.margin-bottom-md {
+  margin-bottom: 1.5rem; }
+
+.padding-lg {
+  padding: 3rem; }
+
+.padding-top-lg {
+  padding-top: 3rem; }
+
+.padding-right-lg {
+  padding-right: 3rem; }
+
+.padding-left-lg {
+  padding-left: 3rem; }
+
+.padding-bottom-lg {
+  padding-bottom: 3rem; }
+
+.margin-lg {
+  margin: 3rem; }
+
+.margin-top-lg {
+  margin-top: 3rem; }
+
+.margin-right-lg {
+  margin-right: 3rem; }
+
+.margin-left-lg {
+  margin-left: 3rem; }
+
+.margin-bottom-lg {
+  margin-bottom: 3rem; }
+
+.padding-xl {
+  padding: 5rem; }
+
+.padding-top-xl {
+  padding-top: 5rem; }
+
+.padding-right-xl {
+  padding-right: 5rem; }
+
+.padding-left-xl {
+  padding-left: 5rem; }
+
+.padding-bottom-xl {
+  padding-bottom: 5rem; }
+
+.margin-xl {
+  margin: 5rem; }
+
+.margin-top-xl {
+  margin-top: 5rem; }
+
+.margin-right-xl {
+  margin-right: 5rem; }
+
+.margin-left-xl {
+  margin-left: 5rem; }
+
+.margin-bottom-xl {
+  margin-bottom: 5rem; }
+
+.codeflow-crud-manager__title-button {
+  color: #fff;
+  border-color: #fff;
+  width: 30px;
+  height: 30px;
+  font-size: 10px; }
+  .codeflow-crud-manager__title-button:not(:last-child) {
+    margin-right: 1.5rem; }
+
+.codeflow-crud-manager__action-button {
+  font-size: 14px;
+  padding: 0 !important; }
+  .codeflow-crud-manager__action-button:first-child {
+    margin-right: 0.5rem; }
+
+.dataTable {
+  margin-top: 22px; }
+  .dataTable .titleBar {
+    border-radius: 4px;
+    margin: -30px 25px 16px 25px;
+    padding: 8px 16px;
+    height: 60px;
+    position: relative;
+    background: linear-gradient(40deg, #b2dfdb, #2a9699);
+    /* background: #2bbbad; */
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.12), 0 6px 20px 0 rgba(0, 0, 0, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; }
+  .dataTable .titleBarLeft {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    color: #fff;
+    font-weight: 500; }
+  .dataTable .titleBarRight {
+    width: 170px; }
+  .dataTable .actionsColumn {
+    display: flex;
+    flex: 1;
+    justify-content: center; }
+  .dataTable .actionColBtn {
+    color: #2a9699 !important;
+    border: none !important;
+    font-size: 14px;
+    background: transparent;
+    cursor: pointer; }
+  .dataTable .datatable-content-body {
+    padding: 0.8rem 1.5rem 1.5rem 1.5rem; }
+
+.editModal {
+  padding: 15px 50px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  position: absolute;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 45px, rgba(0, 0, 0, 0.22) 0px 10px 18px;
+  border-radius: 2px;
+  border-color: transparent; }
+
+.codeflow-data-table {
+  border: none !important; }
+  .codeflow-data-table__th-row {
+    box-shadow: none !important; }
+  .codeflow-data-table__tr-group {
+    border: none !important; }
+  .codeflow-data-table__header-cell {
+    margin-bottom: 2px !important;
+    padding: 8px 12px 16px 0 !important;
+    vertical-align: bottom !important;
+    border-right: none !important;
+    border-bottom: 2px solid #e9ecef  !important;
+    display: flex !important; }
+    .codeflow-data-table__header-cell:first-child {
+      padding-left: 0.8rem !important; }
+  .codeflow-data-table__body-row {
+    border-bottom: 1px solid #e9ecef !important; }
+    .codeflow-data-table__body-row:hover:not(.-padRow) {
+      background-color: rgba(0, 0, 0, 0.08) !important; }
+  .codeflow-data-table__body-cell {
+    border: none !important;
+    padding: 16px 16px 16px 0 !important;
+    align-items: center !important;
+    display: flex !important; }
+    .codeflow-data-table__body-cell:first-child {
+      padding-left: 0.8rem !important; }
+  .codeflow-data-table__footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem; }
+
+.codeflow-form-item {
+  padding: 7px 0; }
+  .codeflow-form-item__label {
+    max-width: 100%;
+    text-transform: capitalize; }
+    .codeflow-form-item__label--required::after {
+      content: "*";
+      color: #dc3545; }
+  .codeflow-form-item__holder {
+    margin-top: 6px; }
+    .codeflow-form-item__holder--inline {
+      display: inline-block; }
+  .codeflow-form-item__validation {
+    text-align: center;
+    color: #E64040;
+    font-size: 11px;
+    margin: 2px 0 0 0; }
+
+.hasError {
+  border-color: #a94442;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
+
+.codeflow-pagination {
+  flex: 1;
+  justify-content: flex-end;
+  display: flex; }
+  .codeflow-pagination__paginator li {
+    border: none; }
+  .codeflow-pagination__paginator .rc-pagination-item {
+    border-radius: 50%; }
+    .codeflow-pagination__paginator .rc-pagination-item-active {
+      background-color: #2a9699 !important; }
+    .codeflow-pagination__paginator .rc-pagination-item:hover {
+      background-color: rgba(0, 0, 0, 0.08); }
+      .codeflow-pagination__paginator .rc-pagination-item:hover a {
+        color: #000; }

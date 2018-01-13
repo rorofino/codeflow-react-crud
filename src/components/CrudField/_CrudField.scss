@@ -1,0 +1,33 @@
+.codeflow-form-item {
+    padding: 7px 0;
+
+    &__label {
+        max-width: 100%;
+        text-transform: capitalize;
+
+        &--required::after {
+            content: "*";
+            color: $color-danger;
+        }
+    }
+
+    &__holder {
+        margin-top: 6px;
+
+        &--inline {
+            display: inline-block;
+        }
+    }
+
+    &__validation {
+        text-align: center;
+        color: #E64040;
+        font-size: 11px;
+        margin: 2px 0 0 0;
+    }
+}
+
+.hasError {
+    border-color: #a94442;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}

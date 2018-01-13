@@ -1,0 +1,30 @@
+.demoRow {
+    margin: 20px;
+}
+
+.margin-wrapper {
+    display: inline-block;
+    margin: 10px;
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
+html {
+  font-size: 62.5%; }
+
+body {
+  box-sizing: border-box; 
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.7rem;
+  color: rgba(0, 0, 0, 0.65);
+  background-color: #fff;
+}
+
+a {
+  text-decoration: none;
+}
