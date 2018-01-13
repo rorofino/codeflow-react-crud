@@ -25,6 +25,14 @@ const fakeFetch = () => {
   });
 }
 
+const fakeFetchNoPromise = () => {
+  const fakeData = getData();
+  return {
+    rows: fakeData,
+    count: fakeData.length,
+  };
+}
+
 const fakeDetailPromise = (row) => {
   return new Promise((resolve, reject) => {
     setTimeout(2000,  resolve(row))
@@ -32,8 +40,11 @@ const fakeDetailPromise = (row) => {
 }
 
 const fakeDetail = (row) => {
+  console.log('chamou detail');
   return row;
 }
+
+const isZero = value => (value == 0 ? undefined : 'deve ser zero');
 
 class Demo extends Component {
 
@@ -42,17 +53,17 @@ class Demo extends Component {
       <div>
         <div className="demoRow">
           <CrudManager
-              manual={false}
-              // saveFunction={api.User.Register}
-              fetchFunction={fakeFetch}
-              // deleteFunction={api.User.Delete}
+              formKey="myTestFormId"
               keyField="id"
-              uniqueFormId="myTestFormId"
               // editForm={EditForm}
-              fetchItem={fakeDetail}
+              onCreate={() => console.log('created')}
+              onRead={fakeFetchNoPromise}
+              onReadDetail={fakeDetail}
+              onUpdate={() => console.log('updated')}
+              onDelete={() => console.log('deleted')}
             >
-            <CrudMember field="id" header="Id" filterMatchMode="gte" />
-            <CrudMember field="name" header="Nome" />
+            <CrudMember field="id" header="Id" filterMatchMode="gte" required extraValidators={[isZero]} />
+            <CrudMember field="name" header="Nome" required/>
             <CrudMember field="createdAt" header="Dt. Criação" />
           </CrudManager>
         </div>

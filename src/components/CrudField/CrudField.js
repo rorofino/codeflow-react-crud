@@ -15,8 +15,8 @@ const CrudField = props => {
 	if (props.required) {
 		validate.push(required);
 	}
-	if (props.extraValidate && props.extraValidate.length > 0) {
-		validate.push(props.extraValidate);
+	if (props.extraValidators && props.extraValidators.length > 0) {
+		validate.push(...props.extraValidators);
 	}
 
 	return (
@@ -26,6 +26,7 @@ const CrudField = props => {
 			label={props.label}
 			children={props.children} // eslint-disable-line
 			component={element}
+			required={props.required}
 			validate={validate}
 			className={props.className}
 			format={props.format}

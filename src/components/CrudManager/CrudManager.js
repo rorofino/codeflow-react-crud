@@ -40,17 +40,17 @@ class CrudManager extends React.Component {
 			filtered: undefined,
 			totalCount: 0,
 			editingItem: undefined,
-			deleting: false,
 			columns: this.getColumns(),
 			deletingItems: [],
-			filtrable: false
+			filtrable: false,
+			inserting: false 
 		};
 	}
 	
 	onFetchDataReWrite(state) {
 		const { pageSize, page, sorted, filtered } = state;
 		const reWritedFilters = filtered.map(filter => {
-			const column = state.columns.filter(c => c.accessor === filter.id)[0];
+			const column = state.columns.find(c => c.accessor === filter.id);
 			return { ...filter, filterMatchMode: column.filterMatchMode };
 		});
 		this.setState(
@@ -73,29 +73,31 @@ class CrudManager extends React.Component {
 	}
 
 	async onSaveClick(item) {
-		await this.props.saveFunction(item);
-		this.reloadData();
-		this.setState({ editingItem: undefined });
+		if (this.state.inserting) {
+			await Promise.resolve(this.props.onCreate(item));
+		} else {
+			await Promise.resolve(this.props.onUpdate(item));
+		}
+		this.setState({ editingItem: undefined, inserting: false }, this.reloadData);
 	}
 
 	onCancelClick() {
-		this.setState({ editingItem: undefined });
+		this.setState({ editingItem: undefined, inserting: false });
 	}
 	onAddClick() {
-		this.setState({ editingItem: {} });
+		this.setState({ editingItem: {}, inserting: true });
 	}
 
 	getColumns() {
-		const columns = [];
-		const elementColumns = React.Children.toArray(this.props.children);
-		elementColumns.forEach(element => {
-			columns.push({
-				Header: () => (<div><span>{element.props.header}</span><i style={{marginLeft: 5}} className="fa fa-sort" /></div>),
+		const columns = React.Children.map(this.props.children, element => {
+			return {
+				Header: () => (<div><span>{element.props.header}</span><i className="fa fa-sort margin-left-sm" /></div>),
 				accessor: element.props.field,
 				filterMatchMode: element.props.filterMatchMode,
 				className: element.props.className
-			});
+			};
 		});
+
 		const select = {
 			id: "_selector",
 			accessor: () => "x",
@@ -124,15 +126,15 @@ class CrudManager extends React.Component {
 	}
 
 	async reloadData() {
-		if (this.props.fetchFunction) {
+		if (this.props.onRead) {
 			this.setState({ loading: true });
 	
-			const data = await this.props.fetchFunction(
+			const data = await Promise.resolve(this.props.onRead(
 				this.state.pageSize,
 				this.state.page,
 				this.state.sorted,
 				this.state.filtered
-			);
+			));
 	
 			this.setState({
 				data: data.rows,
@@ -215,8 +217,8 @@ class CrudManager extends React.Component {
 	}
 
 	handleEditClick(row) {
-		if (this.props.fetchItem) {
-			Promise.resolve(this.props.fetchItem(row)).then(item => {
+		if (this.props.onReadDetail) {
+			Promise.resolve(this.props.onReadDetail(row)).then(item => {
 				this.setState({ editingItem: item });
 			});
 		} else {
@@ -225,10 +227,11 @@ class CrudManager extends React.Component {
 	}
 
 	async deleteConfirmed() {
-		this.setState({deleting: true});
-		await this.props.deleteFunction(this.state.deletingItems);
-		this.reloadData();
-		this.setState({deleting: false, deletingItems: []});
+		if (this.props.enableDelete) {
+			await Promise.resolve(this.props.onDelete(this.state.deletingItems));
+			this.reloadData();
+			this.setState({deletingItems: []});
+		}
 	}
 
 	render() {
@@ -271,7 +274,7 @@ class CrudManager extends React.Component {
 					icon="fa fa-user"
 				>
 					<CrudEdit
-						form={this.props.uniqueFormId}
+						form={this.props.formKey}
 						initialValues={this.state.editingItem}
 						editForm={this.props.editForm}
 						members={React.Children.toArray(this.props.children)}
@@ -300,5 +303,34 @@ class CrudManager extends React.Component {
 		);
 	}
 }
+
+CrudManager.propTypes = {
+	formKey: PropTypes.string.isRequired,
+	keyField: PropTypes.string.isRequired,
+	onCreate: PropTypes.func,
+	onRead: PropTypes.func.isRequired,
+	onUpdate: PropTypes.func.isRequired,
+	onDelete: PropTypes.func,
+	onReadDetail: PropTypes.func,
+	editForm: PropTypes.element,
+	clientPagination: PropTypes.bool,
+	editMode: PropTypes.oneOf(['modal', 'inline', 'fullscreen']),
+	enableDelete: PropTypes.bool,
+	enableCreate: PropTypes.bool,
+
+	editValidation: (props) => {
+		if (props.enableCreate && !props.onCreate)
+			return new Error('You must provide a handler for onCreate if enableCreate is true');
+		if (props.enableDelete && !props.onDelete)
+			return new Error('You must provide a handler for onDelete if enableDelete is true');
+	}
+};
+
+CrudManager.defaultProps = {
+	clientPagination: true,
+	editMode: 'modal',
+	enableDelete: true,
+	enableCreate: true
+};
 
 export default CrudManager;

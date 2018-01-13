@@ -20,6 +20,8 @@ CrudMember.propTypes = {
 		"in",
 		"notIn"
 	]),
+	required: PropTypes.bool,
+	extraValidators: PropTypes.arrayOf(PropTypes.func),
 	cellRender: PropTypes.func,
 	fieldRender: PropTypes.func,
 };
