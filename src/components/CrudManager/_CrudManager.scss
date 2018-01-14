@@ -7,9 +7,18 @@
         height: 30px;
         font-size: 10px;
 
+        &:hover {
+            background-color: $color-white;
+            color: $color-primary;
+        }
+
         &:not(:last-child) {
             margin-right: $margin-md;
         }
+    }
+
+    &__body {
+        padding: $padding-sm $padding-md $padding-md $padding-md;
     }
 
     &__action-button {
@@ -56,25 +65,7 @@
         flex: 1;
         justify-content: center;
     }
-
-    .actionColBtn {
-        color: #2a9699 !important;
-        border: none !important;
-        font-size: 14px;
-        background: transparent;
-        cursor: pointer;
-    }
-
-    // .actionColBtn:not(:last-child) {
-    //     margin-right: 10px;
-    // }
-
-    .datatable-content-body {
-        padding: $padding-sm $padding-md $padding-md $padding-md;
-    }
-
-    
-
+ 
 }
 
 

@@ -254,24 +254,37 @@ class CrudManager extends React.Component {
 						</Button>
 					</div>
 				</div>
-				<div className="datatable-content-body">
-					<DataTable
-						filterable={this.state.filtrable}
-						resizable={false}
-						data={this.state.data}
-						onFetchData={this.onFetchDataReWrite}
-						pages={this.state.pages}
-						columns={this.state.columns}
-						totalCount={this.state.totalCount}
-						pageSize={this.state.pageSize}
-						loading={this.state.loading}
-						pageSizeChange={this.handlePageSizeChange}
-					/>
+				<div className="codeflow-crud-manager__body">
+					{
+
+						(this.props.editMode === MODE_FULLSCREEN && this.state.editingItem != null) ?
+						<CrudEdit
+							form={this.props.formKey}
+							initialValues={this.state.editingItem}
+							editForm={this.props.editForm}
+							members={React.Children.toArray(this.props.children)}
+							onSave={this.onSaveClick}
+							onCancel={this.onCancelClick}
+						/>
+						:
+							<DataTable
+								filterable={this.state.filtrable}
+								resizable={false}
+								data={this.state.data}
+								onFetchData={this.onFetchDataReWrite}
+								pages={this.state.pages}
+								columns={this.state.columns}
+								totalCount={this.state.totalCount}
+								pageSize={this.state.pageSize}
+								loading={this.state.loading}
+								pageSizeChange={this.handlePageSizeChange}
+							/>
+					}
 				</div>
 				<Modal
-					isOpen={this.state.editingItem != null}
-					className={this.props.editModalClassName}
-					icon="fa fa-user"
+					isOpen={this.state.editingItem != null && this.props.editMode === MODE_MODAL}
+					onClose={this.onCancelClick}
+					{...this.props.modalProps}
 				>
 					<CrudEdit
 						form={this.props.formKey}
@@ -304,6 +317,10 @@ class CrudManager extends React.Component {
 	}
 }
 
+const MODE_MODAL = "modal";
+const MODE_INLINE = "inline";
+const MODE_FULLSCREEN = "fullscreen";
+
 CrudManager.propTypes = {
 	formKey: PropTypes.string.isRequired,
 	keyField: PropTypes.string.isRequired,
@@ -314,21 +331,27 @@ CrudManager.propTypes = {
 	onReadDetail: PropTypes.func,
 	editForm: PropTypes.element,
 	clientPagination: PropTypes.bool,
-	editMode: PropTypes.oneOf(['modal', 'inline', 'fullscreen']),
+	editMode: PropTypes.oneOf([MODE_MODAL, MODE_INLINE, MODE_FULLSCREEN]),
 	enableDelete: PropTypes.bool,
 	enableCreate: PropTypes.bool,
+	modalProps: PropTypes.object,
 
 	editValidation: (props) => {
 		if (props.enableCreate && !props.onCreate)
 			return new Error('You must provide a handler for onCreate if enableCreate is true');
 		if (props.enableDelete && !props.onDelete)
 			return new Error('You must provide a handler for onDelete if enableDelete is true');
+	},
+
+	modeValidation: (props) => {
+		if (props.modalProps && props.editMode !== MODE_MODAL)
+			return new Error(`Modal position is only valid for editMode ${MODE_MODAL}`);
 	}
 };
 
 CrudManager.defaultProps = {
 	clientPagination: true,
-	editMode: 'modal',
+	editMode: MODE_MODAL,
 	enableDelete: true,
 	enableCreate: true
 };

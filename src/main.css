@@ -1,5 +1,20 @@
 @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 @import url("https://fonts.googleapis.com/css?family=Roboto");
+.font-xs {
+  font-size: 1rem; }
+
+.font-sm {
+  font-size: 1.2rem; }
+
+.font-md {
+  font-size: 1.6rem; }
+
+.font-lg {
+  font-size: 2.4rem; }
+
+.font-xl {
+  font-size: 3.2rem; }
+
 .vc {
   display: flex;
   align-items: center; }
@@ -164,8 +179,14 @@
   width: 30px;
   height: 30px;
   font-size: 10px; }
+  .codeflow-crud-manager__title-button:hover {
+    background-color: #fff;
+    color: #2a9699; }
   .codeflow-crud-manager__title-button:not(:last-child) {
     margin-right: 1.5rem; }
+
+.codeflow-crud-manager__body {
+  padding: 0.8rem 1.5rem 1.5rem 1.5rem; }
 
 .codeflow-crud-manager__action-button {
   font-size: 14px;
@@ -199,14 +220,6 @@
     display: flex;
     flex: 1;
     justify-content: center; }
-  .dataTable .actionColBtn {
-    color: #2a9699 !important;
-    border: none !important;
-    font-size: 14px;
-    background: transparent;
-    cursor: pointer; }
-  .dataTable .datatable-content-body {
-    padding: 0.8rem 1.5rem 1.5rem 1.5rem; }
 
 .editModal {
   padding: 15px 50px;
