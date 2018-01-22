@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactTable from "react-table";
+import cc from 'classcat';
 
 import {Dropdown} from 'codeflow-react-ui';
 
@@ -9,7 +10,8 @@ import Pagination from "../Pagination/Pagination";
 const footer = props => {
     return (
         <div className="codeflow-data-table__footer">
-            <Dropdown primary material 
+            <Dropdown className="codeflow-data-table__rowNumber"
+                primary material 
                 value={props.pageSize}
                 onChange={props.pageSizeChange}
                 placeholder="Linhas por página"
@@ -32,7 +34,8 @@ const DataTable = (props) => (
         resizable={false}
         getTheadProps={() => ({ className: "codeflow-data-table__th-row" })}
         getTrGroupProps={() => ({ className: "codeflow-data-table__tr-group" })}
-        getTheadThProps={() => ({ className: "codeflow-data-table__header-cell" })}
+        getTheadThProps={() => ({ className: cc(["codeflow-data-table__header-cell", {"codeflow-data-table__header-cell--filtering": props.filterable}]) })}
+        getTheadFilterThProps={() => ({ className: "codeflow-data-table__filter-cell" })}
         getTrProps={() => ({ className: "codeflow-data-table__body-row" })}
         getTdProps={() => ({ className: "codeflow-data-table__body-cell" })}
         PaginationComponent={footer}

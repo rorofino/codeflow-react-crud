@@ -54,6 +54,7 @@ class Demo extends Component {
       <div>
         <div className="demoRow">
           <CrudManager
+              title="Testing the crud manager"
               formKey="myTestFormId"
               keyField="id"
               // editForm={EditForm}
@@ -66,7 +67,7 @@ class Demo extends Component {
               modalProps={{position: "right", style: {content: {width: '50%'}} }}
             >
             <CrudMember field="id" header="Id" filterMatchMode="gte" required extraValidators={[isZero]} />
-            <CrudMember field="name" header="Nome" required fieldRender={() => <Dropdown items={['Rodrigo 0', 'Rodrigo 1']} />}/>
+            <CrudMember field="name" header="Nome" required fieldRender={() => <Dropdown material items={['Rodrigo 0', 'Rodrigo 1']} />}/>
             <CrudMember field="createdAt" header="Dt. Criação" />
           </CrudManager>
         </div>

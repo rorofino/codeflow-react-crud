@@ -7,7 +7,7 @@
   font-size: 1.2rem; }
 
 .font-md {
-  font-size: 1.6rem; }
+  font-size: 1.4rem; }
 
 .font-lg {
   font-size: 2.4rem; }
@@ -22,6 +22,15 @@
 .hc {
   display: flex;
   justify-content: center; }
+
+.color-weak {
+  color: rgba(0, 0, 0, 0.54); }
+
+.color-strong {
+  color: #000; }
+
+.color-invert {
+  color: rgba(255, 255, 255, 0.87); }
 
 .padding-xs {
   padding: 0.5rem; }
@@ -173,68 +182,51 @@
 .margin-bottom-xl {
   margin-bottom: 5rem; }
 
-.codeflow-crud-manager__title-button {
+.codeflow-crud-manager__title-box {
+  border-radius: 4px;
+  transform: translateY(-2rem);
+  margin: 2rem 25px 0 25px;
+  padding: 8px 16px;
+  height: 60px;
+  position: relative;
+  background: linear-gradient(40deg, #b2dfdb, #2a9699);
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.12), 0 6px 20px 0 rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; }
+
+.codeflow-crud-manager__title-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+  font-weight: 500; }
+
+.codeflow-crud-manager__title-button.codeflow-crud-manager__title-button {
   color: #fff;
   border-color: #fff;
   width: 30px;
   height: 30px;
   font-size: 10px; }
-  .codeflow-crud-manager__title-button:hover {
+  .codeflow-crud-manager__title-button.codeflow-crud-manager__title-button:hover {
     background-color: #fff;
     color: #2a9699; }
-  .codeflow-crud-manager__title-button:not(:last-child) {
+  .codeflow-crud-manager__title-button.codeflow-crud-manager__title-button:not(:last-child) {
     margin-right: 1.5rem; }
 
 .codeflow-crud-manager__body {
   padding: 0.8rem 1.5rem 1.5rem 1.5rem; }
+
+.codeflow-crud-manager__action-column {
+  display: flex;
+  flex: 1;
+  justify-content: center; }
 
 .codeflow-crud-manager__action-button {
   font-size: 14px;
   padding: 0 !important; }
   .codeflow-crud-manager__action-button:first-child {
     margin-right: 0.5rem; }
-
-.dataTable {
-  margin-top: 22px; }
-  .dataTable .titleBar {
-    border-radius: 4px;
-    margin: -30px 25px 16px 25px;
-    padding: 8px 16px;
-    height: 60px;
-    position: relative;
-    background: linear-gradient(40deg, #b2dfdb, #2a9699);
-    /* background: #2bbbad; */
-    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.12), 0 6px 20px 0 rgba(0, 0, 0, 0.12);
-    display: flex;
-    align-items: center;
-    justify-content: flex-end; }
-  .dataTable .titleBarLeft {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    color: #fff;
-    font-weight: 500; }
-  .dataTable .titleBarRight {
-    width: 170px; }
-  .dataTable .actionsColumn {
-    display: flex;
-    flex: 1;
-    justify-content: center; }
-
-.editModal {
-  padding: 15px 50px;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  position: absolute;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 45px, rgba(0, 0, 0, 0.22) 0px 10px 18px;
-  border-radius: 2px;
-  border-color: transparent; }
 
 .codeflow-data-table {
   border: none !important; }
@@ -251,9 +243,16 @@
     display: flex !important; }
     .codeflow-data-table__header-cell:first-child {
       padding-left: 0.8rem !important; }
+    .codeflow-data-table__header-cell--filtering {
+      padding: 0.8rem 0 0 0 !important;
+      border-bottom: none !important; }
+  .codeflow-data-table__filter-cell {
+    overflow: initial !important;
+    border-bottom: 2px solid #e9ecef  !important; }
   .codeflow-data-table__body-row {
     border-bottom: 1px solid #e9ecef !important; }
     .codeflow-data-table__body-row:hover:not(.-padRow) {
+      transition: .5s;
       background-color: rgba(0, 0, 0, 0.08) !important; }
   .codeflow-data-table__body-cell {
     border: none !important;
@@ -262,6 +261,8 @@
     display: flex !important; }
     .codeflow-data-table__body-cell:first-child {
       padding-left: 0.8rem !important; }
+  .codeflow-data-table__rowNumber {
+    min-width: 13rem; }
   .codeflow-data-table__footer {
     display: flex;
     flex-direction: row;
@@ -304,4 +305,4 @@
     .codeflow-pagination__paginator .rc-pagination-item:hover {
       background-color: rgba(0, 0, 0, 0.08); }
       .codeflow-pagination__paginator .rc-pagination-item:hover a {
-        color: #000; }
+        color: #4f4f4f; }

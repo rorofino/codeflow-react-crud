@@ -21,12 +21,23 @@
         &:first-child {
             padding-left: $padding-sm !important;
         }
+
+        &--filtering {
+            padding: $padding-sm 0 0 0 !important;
+            border-bottom: none !important;
+        }
     }
     
+    &__filter-cell {
+        overflow: initial !important;
+        border-bottom: 2px solid #e9ecef  !important;
+    }
+
     &__body-row {
         border-bottom: 1px solid #e9ecef !important;
         
         &:hover:not(.-padRow) {
+            transition: .5s;
             background-color: $color-hover !important;
         }
     }
@@ -40,6 +51,9 @@
         &:first-child {
             padding-left: $padding-sm !important;
         }
+    }
+    &__rowNumber {
+        min-width: 13rem;
     }
 
     &__footer {

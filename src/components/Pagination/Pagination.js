@@ -5,7 +5,7 @@ import "rc-pagination/assets/index.css";
 
 const Pagination = (props) => {
 	const { page, pageSize, onPageChange } = props;
-	const totalCount = props.manual ? props.totalCount : props.data.length;
+	const totalCount = props.manual ? props.totalCount : (props.pages * pageSize);
 	return (
 	<div className="codeflow-pagination">
 		<RCPagination

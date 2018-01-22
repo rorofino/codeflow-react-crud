@@ -28,3 +28,7 @@ body {
 a {
   text-decoration: none;
 }
+
+.demoRow {
+  margin: 10rem 5rem;
+}

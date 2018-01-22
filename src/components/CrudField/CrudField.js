@@ -24,7 +24,8 @@ const CrudField = props => {
 			connected
 			name={props.name}
 			label={props.label}
-			children={props.children} // eslint-disable-line
+			showLabel={props.showLabel}
+			children={props.children}
 			component={element}
 			required={props.required}
 			validate={validate}
@@ -34,6 +35,10 @@ const CrudField = props => {
 			normalize={props.normalize}
 		/>
 	);
+};
+
+CrudField.defaultProps = {
+	showLabel: true
 };
 
 export default CrudField;

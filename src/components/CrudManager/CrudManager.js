@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import debounce from 'lodash.debounce';
 import { reduxForm } from "redux-form";
 
-import {Button, Checkbox, Modal, Page, Alert}  from "codeflow-react-ui";
+import {Button, Checkbox, Modal, Page, Alert, TextInput}  from "codeflow-react-ui";
 
 import CrudMember from '../CrudMember/CrudMember';
 import CrudEdit from "../CrudEdit/CrudEdit";
@@ -42,7 +42,7 @@ class CrudManager extends React.Component {
 			editingItem: undefined,
 			columns: this.getColumns(),
 			deletingItems: [],
-			filtrable: false,
+			filterable: false,
 			inserting: false 
 		};
 	}
@@ -90,12 +90,20 @@ class CrudManager extends React.Component {
 
 	getColumns() {
 		const columns = React.Children.map(this.props.children, element => {
-			return {
+			let col = {
 				Header: () => (<div><span>{element.props.header}</span><i className="fa fa-sort margin-left-sm" /></div>),
 				accessor: element.props.field,
 				filterMatchMode: element.props.filterMatchMode,
-				className: element.props.className
+				className: element.props.className,
+				Filter: ({ filter, onChange }) => {
+					if (element.props.fieldRender) {
+						return React.cloneElement(element.props.fieldRender(), {onChange, value: filter? filter.value : ""});
+					} else {
+						return <TextInput onChange={(e) => onChange(e.target.value)} value={filter? filter.value : ""} />
+					}
+				}
 			};
+			return col;
 		});
 
 		const select = {
@@ -147,7 +155,7 @@ class CrudManager extends React.Component {
 
 	actionsColumn(row) {
 		return (
-			<div className="actionsColumn">
+			<div className="codeflow-crud-manager__action-column">
 				<Button
 					primary flat hover={false}
 					className="codeflow-crud-manager__action-button"
@@ -236,14 +244,14 @@ class CrudManager extends React.Component {
 
 	render() {
 		return (
-			<Page className="dataTable">
-				<div className="titleBar">
-					<div className="titleBarLeft">Data Table de Usuarios</div>
-					<div className="titleBarRight">
+			<Page>
+				<div className="codeflow-crud-manager__title-box">
+					<div className="codeflow-crud-manager__title-left">{this.props.title}</div>
+					<div>
 						<Button className="codeflow-crud-manager__title-button" circle outline primary>
 							<i className="fa fa-file" />
 						</Button>
-						<Button className="codeflow-crud-manager__title-button" circle outline primary onClick={()=>this.setState({filtrable: !this.state.filtrable})}>
+						<Button className="codeflow-crud-manager__title-button" circle outline primary onClick={()=>this.setState({filterable: !this.state.filterable})}>
 							<i className="fa fa-filter" />
 						</Button>
 						<Button className="codeflow-crud-manager__title-button" circle outline primary onClick={this.onAddClick} >
@@ -255,47 +263,38 @@ class CrudManager extends React.Component {
 					</div>
 				</div>
 				<div className="codeflow-crud-manager__body">
-					{
-
-						(this.props.editMode === MODE_FULLSCREEN && this.state.editingItem != null) ?
-						<CrudEdit
-							form={this.props.formKey}
-							initialValues={this.state.editingItem}
-							editForm={this.props.editForm}
-							members={React.Children.toArray(this.props.children)}
-							onSave={this.onSaveClick}
-							onCancel={this.onCancelClick}
+					{this.props.editingItem && this.props.editMode === MODE_FULLSCREEN ?
+						null
+					:
+						<DataTable
+							filterable={this.state.filterable}
+							resizable={false}
+							data={this.state.data}
+							onFetchData={this.onFetchDataReWrite}
+							columns={this.state.columns}
+							totalCount={this.state.totalCount}
+							pageSize={this.state.pageSize}
+							loading={this.state.loading}
+							pageSizeChange={this.handlePageSizeChange}
 						/>
-						:
-							<DataTable
-								filterable={this.state.filtrable}
-								resizable={false}
-								data={this.state.data}
-								onFetchData={this.onFetchDataReWrite}
-								pages={this.state.pages}
-								columns={this.state.columns}
-								totalCount={this.state.totalCount}
-								pageSize={this.state.pageSize}
-								loading={this.state.loading}
-								pageSizeChange={this.handlePageSizeChange}
+					}
+					{this.state.editingItem 
+						?	<CrudEdit
+								form={this.props.formKey}
+								initialValues={this.state.editingItem}
+								editForm={this.props.editForm}
+								members={React.Children.toArray(this.props.children)}
+								onSave={this.onSaveClick}
+								//onSubmit={this.onSaveClick}
+								onCancel={this.onCancelClick}
+								modalProps={this.props.modalProps}
+								editMode={this.props.editMode}
+								title={this.props.title}
 							/>
+						:	null 
 					}
 				</div>
-				<Modal
-					isOpen={this.state.editingItem != null && this.props.editMode === MODE_MODAL}
-					onClose={this.onCancelClick}
-					{...this.props.modalProps}
-				>
-					<CrudEdit
-						form={this.props.formKey}
-						initialValues={this.state.editingItem}
-						editForm={this.props.editForm}
-						members={React.Children.toArray(this.props.children)}
-						onSave={this.onSaveClick}
-						onCancel={this.onCancelClick}
-					/>
-				</Modal>
-				
+			
 				<Alert isOpen={this.state.deletingItems.length > 0}
 					danger
 					title="Remover item"
@@ -305,11 +304,11 @@ class CrudManager extends React.Component {
 					onDismiss={() => this.setState({deletingItems: []})}
 				>
 					{this.state.selectedRows.length > 1 ? (
-						<p>
+						<p className="margin-top-md">
 							Deseja realmente remover os {this.state.selectedRows.length} itens selecionados ?
 						</p>
 					) : (
-						<p>Deseja realmente remover esse registro ?</p>
+						<p className="margin-top-md">Deseja realmente remover esse registro ?</p>
 					)}
 				</Alert>
 			</Page>
@@ -324,6 +323,7 @@ const MODE_FULLSCREEN = "fullscreen";
 CrudManager.propTypes = {
 	formKey: PropTypes.string.isRequired,
 	keyField: PropTypes.string.isRequired,
+	title: PropTypes.string.isRequired,
 	onCreate: PropTypes.func,
 	onRead: PropTypes.func.isRequired,
 	onUpdate: PropTypes.func.isRequired,
@@ -345,7 +345,7 @@ CrudManager.propTypes = {
 
 	modeValidation: (props) => {
 		if (props.modalProps && props.editMode !== MODE_MODAL)
-			return new Error(`Modal position is only valid for editMode ${MODE_MODAL}`);
+			return new Error(`Modal props are only valid for editMode ${MODE_MODAL}`);
 	}
 };
 
