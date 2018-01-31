@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import debounce from 'lodash.debounce';
 import { reduxForm } from "redux-form";
 
-import {Button, Checkbox, Modal, Page, Alert, TextInput}  from "codeflow-react-ui";
+import {Button, Checkbox, Modal, Page, Alert, TextInput, Breadcrumb}  from "codeflow-react-ui";
 
 import CrudMember from '../CrudMember/CrudMember';
 import CrudEdit from "../CrudEdit/CrudEdit";
@@ -16,7 +16,6 @@ class CrudManager extends React.Component {
 		super(props);
 		this.rowSelector = this.rowSelector.bind(this);
 		this.headSelector = this.headSelector.bind(this);
-		this.actionsColumn = this.actionsColumn.bind(this);
 		this.toggleSelection = this.toggleSelection.bind(this);
 		this.toggleAll = this.toggleAll.bind(this);
 		this.onFetchDataReWrite = this.onFetchDataReWrite.bind(this);
@@ -28,6 +27,7 @@ class CrudManager extends React.Component {
 		this.deleteConfirmed = this.deleteConfirmed.bind(this);
 		this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
 		this.reloadData = this.reloadData;
+		this.handleEditClick = this.handleEditClick.bind(this);
 		this.state = {
 			selectedRows: [],
 			selectedAll: false,
@@ -116,17 +116,8 @@ class CrudManager extends React.Component {
 			sortable: false,
 			resizable: false,
 		};
-		const actions = {
-			id: "_actions",
-			accessor: () => "x2",
-			Header: "Ações",
-			Cell: ci => this.actionsColumn(ci),
-			width: 70,
-			filterable: false,
-			sortable: false,
-			resizable: false,
-		};
-		return [select, ...columns, actions];
+
+		return [select, ...columns];
 	}
 
 	handlePageSizeChange(pageSize) {
@@ -151,25 +142,6 @@ class CrudManager extends React.Component {
 				loading: false
 			});
 		}
-	}
-
-	actionsColumn(row) {
-		return (
-			<div className="codeflow-crud-manager__action-column">
-				<Button
-					primary flat hover={false}
-					className="codeflow-crud-manager__action-button"
-					onClick={() => this.handleEditClick(row.original)}
-				>
-					<i className="fa fa-pencil" />
-				</Button>
-				<Button 
-					danger flat hover={false} className="codeflow-crud-manager__action-button" 
-					onClick={() => this.onRemoveClick(row.original)}>
-					<i className="fa fa-times" />
-				</Button>
-			</div>
-		);
 	}
 
 	selectAll() {
@@ -243,27 +215,46 @@ class CrudManager extends React.Component {
 	}
 
 	render() {
+		const editingFullscreen = this.state.editingItem && this.props.editMode === MODE_FULLSCREEN;
 		return (
 			<Page>
 				<div className="codeflow-crud-manager__title-box">
-					<div className="codeflow-crud-manager__title-left">{this.props.title}</div>
-					<div>
-						<Button className="codeflow-crud-manager__title-button" circle outline primary>
-							<i className="fa fa-file" />
-						</Button>
-						<Button className="codeflow-crud-manager__title-button" circle outline primary onClick={()=>this.setState({filterable: !this.state.filterable})}>
-							<i className="fa fa-filter" />
-						</Button>
-						<Button className="codeflow-crud-manager__title-button" circle outline primary onClick={this.onAddClick} >
-							<i className="fa fa-plus" />
-						</Button>
-						<Button className="codeflow-crud-manager__title-button" circle outline primary onClick={this.onMultipleRemoveClick} disabled={this.state.selectedRows.length < 1 && !this.state.selectedAll}>
-							<i className="fa fa-times" />
-						</Button>
-					</div>
+					{ !editingFullscreen ?
+						<React.Fragment>
+							<div className="codeflow-crud-manager__title-left">{this.props.title}</div>
+							<div>
+								{ this.props.enableFilter ?
+									<Button className="codeflow-crud-manager__title-button" circle outline primary onClick={()=>this.setState({filterable: !this.state.filterable})}>
+										<i className="fa fa-filter" />
+									</Button>
+									: null 
+								}
+								{ this.props.enableCreate ?
+									<Button className="codeflow-crud-manager__title-button" circle outline primary onClick={this.onAddClick} >
+										<i className="fa fa-plus" />
+									</Button>
+									: null
+								}
+								{ this.props.enableDelete ?
+									<Button className="codeflow-crud-manager__title-button" circle outline primary onClick={this.onMultipleRemoveClick} disabled={this.state.selectedRows.length < 1 && !this.state.selectedAll}>
+										<i className="fa fa-times" />
+									</Button>
+									: null
+								}
+							</div>
+						</React.Fragment>
+					: (
+						<div>
+							<Breadcrumb>
+								{ this.props.title }
+								Editando
+							</Breadcrumb> 
+						</div>
+					)
+				}
 				</div>
 				<div className="codeflow-crud-manager__body">
-					{this.props.editingItem && this.props.editMode === MODE_FULLSCREEN ?
+					{ editingFullscreen ?
 						null
 					:
 						<DataTable
@@ -276,6 +267,11 @@ class CrudManager extends React.Component {
 							pageSize={this.state.pageSize}
 							loading={this.state.loading}
 							pageSizeChange={this.handlePageSizeChange}
+							onEditClick={this.handleEditClick}
+							onRemoveClick={this.onRemoveClick}
+							extraActions={this.props.extraActions}
+							enableUpdate={this.props.enableUpdate}
+							enableDelete={this.props.enableDelete}
 						/>
 					}
 					{this.state.editingItem 
@@ -285,7 +281,6 @@ class CrudManager extends React.Component {
 								editForm={this.props.editForm}
 								members={React.Children.toArray(this.props.children)}
 								onSave={this.onSaveClick}
-								//onSubmit={this.onSaveClick}
 								onCancel={this.onCancelClick}
 								modalProps={this.props.modalProps}
 								editMode={this.props.editMode}
@@ -329,11 +324,14 @@ CrudManager.propTypes = {
 	onUpdate: PropTypes.func.isRequired,
 	onDelete: PropTypes.func,
 	onReadDetail: PropTypes.func,
-	editForm: PropTypes.element,
+	extraActions: PropTypes.func,
+	editForm: PropTypes.oneOf([PropTypes.func, PropTypes.node]),
 	clientPagination: PropTypes.bool,
 	editMode: PropTypes.oneOf([MODE_MODAL, MODE_INLINE, MODE_FULLSCREEN]),
-	enableDelete: PropTypes.bool,
 	enableCreate: PropTypes.bool,
+	enableUpdate: PropTypes.bool,
+	enableDelete: PropTypes.bool,
+	enableFilter: PropTypes.bool,
 	modalProps: PropTypes.object,
 
 	editValidation: (props) => {
@@ -341,6 +339,8 @@ CrudManager.propTypes = {
 			return new Error('You must provide a handler for onCreate if enableCreate is true');
 		if (props.enableDelete && !props.onDelete)
 			return new Error('You must provide a handler for onDelete if enableDelete is true');
+		if (props.enableDelete && !props.onDelete)
+			return new Error('You must provide a handler for onUpdate if enableUpdate is true');
 	},
 
 	modeValidation: (props) => {
@@ -352,8 +352,10 @@ CrudManager.propTypes = {
 CrudManager.defaultProps = {
 	clientPagination: true,
 	editMode: MODE_MODAL,
+	enableCreate: true,
+	enableUpdate: true,
 	enableDelete: true,
-	enableCreate: true
+	enableFilter: true,
 };
 
 export default CrudManager;

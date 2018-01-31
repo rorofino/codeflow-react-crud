@@ -46,18 +46,4 @@
         padding: $padding-sm $padding-md $padding-md $padding-md;
     }
 
-    &__action-column {
-        display: flex;
-        flex: 1;
-        justify-content: center;
-    }
-
-    &__action-button {
-        font-size: 14px;
-        padding: 0 !important;
-
-        &:first-child {
-            margin-right: $margin-xs;
-        }
-    }
 }

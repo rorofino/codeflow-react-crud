@@ -23,6 +23,12 @@
   display: flex;
   justify-content: center; }
 
+.dr {
+  flex-direction: row; }
+
+.dc {
+  flex-direction: column; }
+
 .color-weak {
   color: rgba(0, 0, 0, 0.54); }
 
@@ -217,19 +223,17 @@
 .codeflow-crud-manager__body {
   padding: 0.8rem 1.5rem 1.5rem 1.5rem; }
 
-.codeflow-crud-manager__action-column {
-  display: flex;
-  flex: 1;
-  justify-content: center; }
-
-.codeflow-crud-manager__action-button {
-  font-size: 14px;
-  padding: 0 !important; }
-  .codeflow-crud-manager__action-button:first-child {
-    margin-right: 0.5rem; }
-
 .codeflow-data-table {
   border: none !important; }
+  .codeflow-data-table__action-column {
+    display: flex;
+    flex: 1;
+    justify-content: center; }
+  .codeflow-data-table__action-button {
+    font-size: 14px;
+    padding: 0 !important; }
+    .codeflow-data-table__action-button:not(:last-child) {
+      margin-right: 0.5rem; }
   .codeflow-data-table__th-row {
     box-shadow: none !important; }
   .codeflow-data-table__tr-group {

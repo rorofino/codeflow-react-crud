@@ -13,7 +13,7 @@ import store from './store';
 
 import CrudManager from '../../src/components/CrudManager/CrudManager';
 import CrudMember from '../../src/components/CrudMember/CrudMember';
-import { Dropdown } from 'codeflow-react-ui';
+import { Dropdown, Button } from 'codeflow-react-ui';
 
 
 const fakeFetch = () => {
@@ -63,8 +63,9 @@ class Demo extends Component {
               onReadDetail={fakeDetail}
               onUpdate={() => console.log('updated')}
               onDelete={() => console.log('deleted')}
-              editMode="modal"
+              editMode="fullscreen"
               modalProps={{position: "right", style: {content: {width: '50%'}} }}
+              extraActions={(item) => <Button flat hover={false}><i className="fa fa-unlock" onClick={console.log(item)}/></Button>}
             >
             <CrudMember field="id" header="Id" filterMatchMode="gte" required extraValidators={[isZero]} />
             <CrudMember field="name" header="Nome" required fieldRender={() => <Dropdown material items={['Rodrigo 0', 'Rodrigo 1']} />}/>
