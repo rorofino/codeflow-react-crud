@@ -34,7 +34,7 @@ class CrudManager extends React.Component {
 			loading: false,
 			data: props.data || [],
 			pages: 0,
-			pageSize: 10,
+			pageSize: 100,
 			page: 0,
 			sorted: undefined,
 			filtered: undefined,
